@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio charte graphique · Les commerçants de Rive-de-Gier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bebas+Neue&family=Lato:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:ital,wght@0,400;0,600;0,700;1,400&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --ui:#1F2E4A; --red:#A61E2A; --line:#d9dee6; --soft:#f3f5f8; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:"Open Sans", system-ui, sans-serif; color:#1E2229; background:#eef1f5; }
+header { background:var(--red); color:#fff; padding:14px 22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+header h1 { margin:0; font-family:"Playfair Display", serif; font-size:22px; }
+header small { display:block; font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:.85; }
+header .tag { font-size:12px; opacity:.9; }
+.wrap { display:grid; grid-template-columns: 360px 1fr; gap:18px; padding:18px; max-width:1300px; margin:0 auto; }
+@media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } }
+.panel { background:#fff; border-radius:12px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,.06); }
+.step { margin-bottom:18px; }
+.step h2 { font-size:13px; letter-spacing:1.2px; text-transform:uppercase; color:var(--red); margin:0 0 8px; display:flex; align-items:center; gap:8px; }
+.step h2 span { background:var(--ui); color:#fff; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; letter-spacing:0; }
+.hint { font-size:12px; color:#5a6270; margin:0 0 8px; }
+.wheel-box { display:flex; gap:14px; align-items:center; }
+#wheel { width:150px; height:150px; border-radius:50%; position:relative; cursor:crosshair; flex:none;
+  background:conic-gradient(from 90deg, hsl(0 85% 50%), hsl(30 85% 50%), hsl(60 85% 50%), hsl(90 85% 50%), hsl(120 85% 50%), hsl(150 85% 50%), hsl(180 85% 50%), hsl(210 85% 50%), hsl(240 85% 50%), hsl(270 85% 50%), hsl(300 85% 50%), hsl(330 85% 50%), hsl(360 85% 50%)); }
+#wheel::after { content:""; position:absolute; inset:38px; background:#fff; border-radius:50%; }
+.dot { position:absolute; width:16px; height:16px; border-radius:50%; border:3px solid #fff; box-shadow:0 0 0 1px rgba(0,0,0,.4); transform:translate(-50%,-50%); z-index:2; pointer-events:none; }
+.dot.main { width:22px; height:22px; }
+.sliders label { display:block; font-size:12px; font-weight:600; margin-bottom:2px; }
+.sliders input[type=range] { width:100%; margin-bottom:8px; }
+.hexrow { display:flex; gap:6px; align-items:center; font-size:12px; }
+.hexrow input { width:90px; font-family:monospace; padding:4px 6px; border:1px solid var(--line); border-radius:6px; }
+.seg { display:flex; flex-wrap:wrap; gap:6px; }
+.seg button { border:1px solid var(--line); background:#fff; border-radius:20px; padding:6px 11px; font-size:12px; cursor:pointer; font-family:inherit; }
+.seg button.on { background:var(--ui); color:#fff; border-color:var(--ui); }
+.pal { display:flex; gap:6px; margin-top:10px; }
+.pal div { flex:1; border-radius:8px; height:44px; position:relative; border:1px solid rgba(0,0,0,.08); }
+.pal div span { position:absolute; bottom:-17px; left:0; right:0; text-align:center; font-size:10px; color:#5a6270; font-family:monospace; }
+.pal-legend { display:flex; gap:6px; margin-top:20px; font-size:10.5px; color:#5a6270; text-align:center; }
+.pal-legend div { flex:1; }
+select { width:100%; padding:7px 8px; border:1px solid var(--line); border-radius:8px; font-size:14px; margin-bottom:8px; background:#fff; }
+.roles label { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; margin-bottom:6px; gap:8px; }
+.roles select { width:160px; margin:0; font-size:12.5px; padding:5px; }
+.preview-head { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.preview-head h2 { margin:0; font-size:15px; color:var(--ui); }
+.btn { background:var(--ui); color:#fff; border:none; border-radius:8px; padding:8px 13px; font-size:13px; cursor:pointer; font-family:inherit; }
+.btn.alt { background:#fff; color:var(--ui); border:1px solid var(--ui); }
+.stage { background:#cfd5de; border-radius:12px; padding:22px; display:flex; justify-content:center; transition:all .3s; overflow:hidden; }
+.page { width:100%; max-width:560px; aspect-ratio: 1 / 1.414; padding:28px 30px; box-shadow:0 6px 24px rgba(0,0,0,.18); transition:all .3s; display:flex; flex-direction:column; }
+.stage.far .page { transform:scale(.42); filter:blur(.6px); transform-origin:top center; margin-bottom:-55%; }
+.rub { align-self:flex-start; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:4px 10px; margin-bottom:12px; }
+.ttl { line-height:1.08; margin:0 0 10px; }
+.chap { font-weight:600; margin:0 0 14px; line-height:1.4; }
+.grid { display:grid; grid-template-columns: 2fr 1fr; gap:12px; }
+.photo { aspect-ratio: 3 / 2; border-radius:2px; display:flex; align-items:center; justify-content:center; font-size:11px; color:rgba(255,255,255,.9); letter-spacing:1px; text-transform:uppercase; }
+.leg { font-style:italic; font-size:10px; margin-top:4px; }
+.encart { padding:12px; font-size:11px; line-height:1.45; }
+.encart b { display:block; font-size:12px; margin-bottom:4px; }
+.cols { columns:3; column-gap:14px; margin-top:14px; line-height:1.5; }
+.cols h4 { margin:0 0 4px; font-size:11px; letter-spacing:1px; text-transform:uppercase; break-after:avoid; }
+.cols p { margin:0 0 8px; }
+.checks { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:8px; margin-top:14px; }
+.chk { background:#fff; border-radius:10px; padding:10px 12px; font-size:12.5px; border-left:6px solid #999; }
+.chk b { display:block; font-size:13px; }
+.chk.g { border-color:#2F8A57; } .chk.o { border-color:#E0A21B; } .chk.r { border-color:#C0392B; }
+.ratio { display:flex; height:14px; border-radius:7px; overflow:hidden; margin-top:6px; border:1px solid rgba(0,0,0,.1); }
+.card { margin-top:16px; }
+.card table { width:100%; border-collapse:collapse; font-size:13px; }
+.card td { padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:middle; }
+.card td:first-child { font-weight:700; color:var(--ui); width:150px; }
+.sw { display:inline-block; width:18px; height:18px; border-radius:4px; vertical-align:middle; margin-right:6px; border:1px solid rgba(0,0,0,.15); }
+.copied { font-size:12px; color:#2F8A57; margin-left:8px; }
+.who { display:grid; grid-template-columns:1fr; gap:8px; margin:4px 0 12px; }
+.who label { font-size:12px; font-weight:600; color:var(--ui); }
+.who input, .who textarea { width:100%; padding:7px 9px; border:1px solid var(--line); border-radius:8px; font:inherit; font-size:13px; }
+.who textarea { min-height:52px; resize:vertical; }
+#sheet { display:none; }
+@media print {
+  @page { size:A4; margin:12mm; }
+  body { background:#fff; }
+  body > header, .wrap, .foot { display:none !important; }
+  #sheet { display:block; font-family:"Open Sans", sans-serif; color:#1E2229; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .sh-band { background:#A61E2A; color:#fff; padding:10px 14px; border-radius:6px; }
+  .sh-band small { display:block; font-size:9px; letter-spacing:2px; text-transform:uppercase; opacity:.85; }
+  .sh-band b { font-family:"Playfair Display", serif; font-size:20px; }
+  .sh-id { display:flex; justify-content:space-between; font-size:12px; margin:8px 2px 10px; }
+  .sh-row { display:flex; gap:14px; align-items:flex-start; }
+  .sh-col { flex:1; }
+  .sh-h { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#A61E2A; margin:10px 0 5px; }
+  .sh-sw { display:flex; gap:6px; }
+  .sh-sw div { flex:1; text-align:center; font-size:9px; font-family:monospace; }
+  .sh-sw div i { display:block; height:34px; border-radius:5px; border:1px solid rgba(0,0,0,.15); margin-bottom:3px; }
+  .sh-sw div em { display:block; font-family:"Open Sans", sans-serif; font-style:normal; color:#5a6270; }
+  .sh-font { border:1px solid #d9dee6; border-radius:6px; padding:7px 10px; margin-bottom:6px; font-size:11px; }
+  .sh-font .smp { font-size:20px; line-height:1.15; margin-top:2px; }
+  .sh-prev { width:300px; flex:none; }
+  .sh-prev .page { zoom:.535; box-shadow:none; border:1px solid #ccc; max-width:560px; width:560px; }
+  .sh-why { border:1px solid #d9dee6; border-radius:6px; padding:8px 10px; font-size:12px; min-height:40px; }
+  .sh-checks { display:grid; grid-template-columns:1fr 1fr; gap:5px; }
+  .sh-checks .chk { font-size:10px; padding:5px 8px; border:1px solid #e3e6eb; border-left-width:5px; }
+  .sh-checks .chk b { font-size:10.5px; }
+}
+.foot { text-align:center; font-size:11px; color:#6b7484; padding:10px 0 24px; }
+</style>
+</head>
+<body>
+<header>
+  <div><small>Ville de Rive-de-Gier · Service Commerce et attractivité</small><h1>Studio charte graphique</h1></div>
+  <div class="tag">Magazine « Les commerçants de Rive-de-Gier » · Mission 5</div>
+</header>
+
+<div class="wrap">
+  <div class="panel">
+    <div class="step">
+      <h2><span>1</span>Couleur principale</h2>
+      <p class="hint">Clique sur la roue pour choisir la teinte, puis règle l’intensité et la clarté.</p>
+      <div class="wheel-box">
+        <div id="wheel"></div>
+        <div class="sliders" style="flex:1">
+          <label>Intensité <span id="sv"></span></label><input type="range" id="sat" min="20" max="95" value="70">
+          <label>Clarté <span id="lv"></span></label><input type="range" id="lig" min="22" max="60" value="38">
+          <div class="hexrow">Code : <input id="hex" value="#A61E2A" maxlength="7"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <h2><span>2</span>Harmonie</h2>
+      <p class="hint">Le Studio calcule les couleurs qui vont avec la couleur principale.</p>
+      <div class="seg" id="harm">
+        <button data-h="comp" class="on">Complémentaire</button>
+        <button data-h="ana">Analogue</button>
+        <button data-h="tri">Triade</button>
+        <button data-h="mono">Camaïeu</button>
+      </div>
+      <div class="pal" id="pal"></div>
+      <div class="pal-legend"><div>Principale</div><div>Accent</div><div>Fond encart</div><div>Texte</div><div>Fond page</div></div>
+    </div>
+
+    <div class="step">
+      <h2><span>3</span>Typographie</h2>
+      <label style="font-size:12px; font-weight:600">Police des titres</label>
+      <select id="ft">
+        <option>Playfair Display</option><option>Lora</option><option>Abril Fatface</option><option>Bebas Neue</option><option>Oswald</option><option>Montserrat</option><option>Poppins</option>
+      </select>
+      <label style="font-size:12px; font-weight:600">Police du texte</label>
+      <select id="fb">
+        <option>Montserrat</option><option>Open Sans</option><option>Poppins</option><option>Lato</option><option>Roboto</option><option>Lora</option><option>Playfair Display</option>
+      </select>
+      <div class="sliders">
+        <label>Taille du titre : <span id="tsv"></span> pt</label><input type="range" id="ts" min="20" max="44" value="30">
+        <label>Taille du texte : <span id="bsv"></span> pt</label><input type="range" id="bs" min="7" max="13" value="10">
+      </div>
+    </div>
+
+    <div class="step" style="margin-bottom:0">
+      <h2><span>4</span>Qui prend quelle couleur ?</h2>
+      <div class="roles">
+        <label>Titre <select id="r-title"></select></label>
+        <label>Bandeau de rubrique <select id="r-band"></select></label>
+        <label>Intertitres <select id="r-inter"></select></label>
+        <label>Encart <select id="r-enc"></select></label>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="panel">
+      <div class="preview-head">
+        <h2>Aperçu d’un article du magazine</h2>
+        <div style="display:flex; gap:8px">
+          <button class="btn alt" id="far">Test des 3 mètres</button>
+        </div>
+      </div>
+      <div class="stage" id="stage">
+        <div class="page" id="page">
+          <div class="rub" id="rub">Commerce de bouche</div>
+          <h1 class="ttl" id="ttl">Chez Lucie, le pain a le goût du quartier</h1>
+          <p class="chap" id="chap">Depuis dix ans, la boulangerie de la rue Jean-Jaurès accueille les Ripagériens dès 6 heures du matin. Rencontre avec une artisane passionnée.</p>
+          <div class="grid">
+            <div><div class="photo" id="photo">Photo · paysage</div><div class="leg" id="leg">Lucie sort ses premières baguettes du four.</div></div>
+            <div class="encart" id="enc"><b>Infos pratiques</b>12 rue Jean-Jaurès<br>Rive-de-Gier<br>Du mardi au dimanche<br>6 h – 19 h 30<br><br><b>Coup de cœur</b>La tourte aux noix</div>
+          </div>
+          <div class="cols" id="cols">
+            <h4 class="it">Une passion familiale</h4>
+            <p>Lucie a appris le métier auprès de son grand-père. Aujourd’hui, elle pétrit chaque nuit une dizaine de pains différents, avec des farines venues de la région.</p>
+            <p>Ses clients viennent parfois de loin pour sa tourte aux noix, devenue la spécialité de la maison.</p>
+            <h4 class="it">Un lieu de vie</h4>
+            <p>Le matin, la boutique devient un lieu de rencontre : on y prend des nouvelles des voisins autant que sa baguette.</p>
+            <p>« Je connais presque tous mes clients par leur prénom », sourit-elle.</p>
+            <h4 class="it">Des projets pour demain</h4>
+            <p>Pour les fêtes, Lucie prépare une bûche à la châtaigne et des sablés aux épices, à commander en boutique.</p>
+            <p>Elle aimerait aussi proposer des ateliers pour les enfants du quartier, le mercredi après-midi.</p>
+            <p>Une boulangerie de quartier qui fait vivre la rue : une bonne raison de pousser sa porte.</p>
+          </div>
+        </div>
+      </div>
+      <div class="checks" id="checks"></div>
+    </div>
+
+    <div class="panel card">
+      <div class="preview-head">
+        <h2>Ma fiche récapitulative</h2>
+        <div><button class="btn" id="pdf">Télécharger ma fiche (PDF)</button> <button class="btn alt" id="copy">Copier</button><span class="copied" id="copied"></span></div>
+      </div>
+      <div class="who">
+        <div><label for="nom">Nom et prénom</label><input id="nom" placeholder="Ex. : Léa Martin et Yanis Dupont"></div>
+        <div><label for="why">Pourquoi ce choix ? (une phrase)</label><textarea id="why" placeholder="Ex. : Le rouge rappelle la ville et donne une image chaleureuse des commerces."></textarea></div>
+      </div>
+      <table id="recap"></table>
+      <p class="hint" style="margin-top:10px"><b>Pour le PDF :</b> clique sur « Télécharger ma fiche (PDF) », choisis « Enregistrer au format PDF » comme imprimante, puis dépose le fichier sur le Digipad.<br>En mission 6, recopie ces informations dans la partie « Couleurs » et « Typographie » de la charte graphique sur Canva : dans Canva, colle chaque code couleur dans le « + » de la palette, et choisis les mêmes polices.</p>
+    </div>
+  </div>
+</div>
+<div id="sheet"></div>
+<div class="foot">Studio charte graphique · outil pédagogique · 2de Bac Pro MRC · Lycée Notre-Dame des Collines</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let H = 355, S = 70, L = 38, harm = 'comp';
+const roleNames = ['Principale', 'Accent', 'Texte'];
+
+function hsl2hex(h, s, l) {
+  h = ((h % 360) + 360) % 360; s /= 100; l /= 100;
+  const k = n => (n + h / 30) % 12, a = s * Math.min(l, 1 - l);
+  const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return '#' + [f(0), f(8), f(4)].map(x => Math.round(x * 255).toString(16).padStart(2, '0')).join('').toUpperCase();
+}
+function hex2hsl(hex) {
+  let r = parseInt(hex.slice(1, 3), 16) / 255, g = parseInt(hex.slice(3, 5), 16) / 255, b = parseInt(hex.slice(5, 7), 16) / 255;
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b); let h, s, l = (mx + mn) / 2;
+  if (mx === mn) { h = s = 0; } else {
+    const d = mx - mn; s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn);
+    h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60;
+  }
+  return [Math.round(h), Math.round(s * 100), Math.round(l * 100)];
+}
+function lum(hex) {
+  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4));
+  return .2126 * c[0] + .7152 * c[1] + .0722 * c[2];
+}
+function contrast(a, b) { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
+
+function palette() {
+  const main = hsl2hex(H, S, L);
+  let accH = H + 180, accS = S, accL = Math.min(L + 6, 55);
+  if (harm === 'ana') { accH = H + 35; }
+  if (harm === 'tri') { accH = H + 120; }
+  if (harm === 'mono') { accH = H; accS = Math.max(S - 20, 25); accL = Math.min(L + 22, 70); }
+  const acc = hsl2hex(accH, accS, accL);
+  const encH = harm === 'tri' ? H + 240 : H;
+  const enc = hsl2hex(encH, Math.min(S, 45), 93);
+  const text = hsl2hex(H, 15, 14);
+  const bg = hsl2hex(H, 20, 98.5);
+  return { main, acc, enc, text, bg };
+}
+const ROLE_LABELS = { main: 'Principale', acc: 'Accent', text: 'Texte (foncé)' };
+function fillRoleSelect(id, def) {
+  const s = $(id); s.innerHTML = '';
+  Object.entries(ROLE_LABELS).forEach(([k, v]) => { const o = document.createElement('option'); o.value = k; o.textContent = v; if (k === def) o.selected = true; s.appendChild(o); });
+  s.onchange = render;
+}
+fillRoleSelect('r-title', 'main'); fillRoleSelect('r-band', 'main'); fillRoleSelect('r-inter', 'acc');
+(function () { const s = $('r-enc'); [['enc', 'Fond clair (encart)'], ['acc', 'Accent'], ['main', 'Principale']].forEach(([k, v]) => { const o = document.createElement('option'); o.value = k; o.textContent = v; s.appendChild(o); }); s.onchange = render; })();
+
+function dots() {
+  const w = $('wheel'); w.querySelectorAll('.dot').forEach(d => d.remove());
+  const p = palette(); const list = [[H, p.main, true]];
+  if (harm !== 'mono') list.push([harm === 'comp' ? H + 180 : harm === 'ana' ? H + 35 : H + 120, p.acc, false]);
+  if (harm === 'tri') list.push([H + 240, hsl2hex(H + 240, S, L), false]);
+  list.forEach(([h, c, main]) => {
+    const a = (h - 90) * Math.PI / 180; // conic from 90deg = starts at top? adjust
+    const r = 56; const d = document.createElement('div'); d.className = 'dot' + (main ? ' main' : '');
+    const ang = (h) * Math.PI / 180;
+    d.style.left = (75 + r * Math.cos(ang)) + 'px'; d.style.top = (75 + r * Math.sin(ang)) + 'px'; d.style.background = c; w.appendChild(d);
+  });
+}
+// conic-gradient "from 90deg" starts at the right (3 o'clock) and goes clockwise: hue h is at angle h measured clockwise from 3 o'clock
+$('wheel').addEventListener('click', e => {
+  const r = e.currentTarget.getBoundingClientRect();
+  const x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2;
+  H = Math.round((Math.atan2(y, x) * 180 / Math.PI + 360) % 360); render();
+});
+
+function badge(el, ratio, label, need) {
+  const cls = ratio >= need ? 'g' : ratio >= need * 0.7 ? 'o' : 'r';
+  const txt = cls === 'g' ? 'Lisible' : cls === 'o' ? 'Limite' : 'Peu lisible';
+  return `<div class="chk ${cls}"><b>${txt}</b>${label} · contraste ${ratio.toFixed(1)}</div>`;
+}
+
+function render() {
+  $('sv').textContent = S + ' %'; $('lv').textContent = L + ' %';
+  const p = palette(); const col = k => p[k];
+  if (document.activeElement !== $('hex')) $('hex').value = p.main;
+  $('pal').innerHTML = [p.main, p.acc, p.enc, p.text, p.bg].map(c => `<div style="background:${c}"><span>${c}</span></div>`).join('');
+  const ft = $('ft').value, fb = $('fb').value, ts = +$('ts').value, bs = +$('bs').value;
+  $('tsv').textContent = ts; $('bsv').textContent = bs;
+  const page = $('page'); page.style.background = p.bg; page.style.color = p.text; page.style.fontFamily = `"${fb}", sans-serif`; page.style.fontSize = (bs * 1.15) + 'px';
+  const tCol = col($('r-title').value), bandCol = col($('r-band').value), iCol = col($('r-inter').value);
+  const encKey = $('r-enc').value, encCol = encKey === 'enc' ? p.enc : col(encKey);
+  const encText = contrast(encCol, '#FFFFFF') > contrast(encCol, p.text) ? '#FFFFFF' : p.text;
+  const bandText = contrast(bandCol, '#FFFFFF') > contrast(bandCol, p.text) ? '#FFFFFF' : p.text;
+  const t = $('ttl'); t.style.fontFamily = `"${ft}", serif`; t.style.fontSize = (ts * 1.15) + 'px'; t.style.color = tCol;
+  t.style.fontWeight = ['Bebas Neue', 'Abril Fatface'].includes(ft) ? '400' : '700';
+  t.style.letterSpacing = ft === 'Bebas Neue' ? '1px' : '0';
+  $('chap').style.fontSize = (bs * 1.15 * 1.18) + 'px';
+  const rub = $('rub'); rub.style.background = bandCol; rub.style.color = bandText;
+  document.querySelectorAll('.it').forEach(e => e.style.color = iCol);
+  const enc = $('enc'); enc.style.background = encCol; enc.style.color = encText; enc.querySelectorAll('b').forEach(b => b.style.color = encKey === 'enc' ? tCol : encText);
+  $('photo').style.background = `linear-gradient(135deg, ${hsl2hex(H, 25, 55)}, ${hsl2hex(H + 25, 30, 35)})`;
+  $('leg').style.color = hsl2hex(H, 10, 40);
+
+  const rT = contrast(tCol, p.bg), rB = contrast(p.text, p.bg), rBand = contrast(bandCol, bandText), rI = contrast(iCol, p.bg), rE = contrast(encCol, encText);
+  const fonts = new Set([ft, fb]).size;
+  let html = badge(null, rT, 'Titre sur le fond', 3) + badge(null, rB, 'Texte sur le fond', 4.5) + badge(null, rI, 'Intertitres', 3) + badge(null, rBand, 'Bandeau', 3) + badge(null, rE, 'Encart', 4.5);
+  const fc = fonts <= 2 ? 'g' : 'r';
+  html += `<div class="chk ${fc}"><b>${fonts} police${fonts > 1 ? 's' : ''}</b>${fonts <= 2 ? 'Règle des deux polices respectée' : 'Trop de polices'}</div>`;
+  const fancy = ['Abril Fatface', 'Bebas Neue', 'Playfair Display'].includes(fb);
+  html += `<div class="chk ${fancy ? 'o' : 'g'}"><b>Police du texte</b>${fancy ? 'Police de titre utilisée pour le texte : moins lisible' : 'Police adaptée au texte long'}</div>`;
+  html += `<div class="chk g"><b>Règle 60-30-10</b><div class="ratio"><div style="flex:60; background:${p.bg}"></div><div style="flex:30; background:${p.main}"></div><div style="flex:10; background:${p.acc}"></div></div></div>`;
+  $('checks').innerHTML = html;
+
+  const harmName = { comp: 'Complémentaire', ana: 'Analogue', tri: 'Triade', mono: 'Camaïeu' }[harm];
+  const rows = [
+    ['Harmonie', harmName],
+    ['Couleur principale', `<span class="sw" style="background:${p.main}"></span>${p.main}`],
+    ['Couleur d’accent', `<span class="sw" style="background:${p.acc}"></span>${p.acc}`],
+    ['Fond des encarts', `<span class="sw" style="background:${p.enc}"></span>${p.enc}`],
+    ['Couleur du texte', `<span class="sw" style="background:${p.text}"></span>${p.text}`],
+    ['Fond de page', `<span class="sw" style="background:${p.bg}"></span>${p.bg}`],
+    ['Police des titres', `<span style="font-family:'${ft}'">${ft}</span> · ${ts} pt`],
+    ['Police du texte', `<span style="font-family:'${fb}'">${fb}</span> · ${bs} pt`],
+    ['Titre', ROLE_LABELS[$('r-title').value]], ['Bandeau', ROLE_LABELS[$('r-band').value]], ['Intertitres', ROLE_LABELS[$('r-inter').value]],
+  ];
+  $('recap').innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('');
+  window._recap = `CHARTE GRAPHIQUE – Les commerçants de Rive-de-Gier\nHarmonie : ${harmName}\nCouleur principale : ${p.main}\nCouleur d'accent : ${p.acc}\nFond des encarts : ${p.enc}\nCouleur du texte : ${p.text}\nFond de page : ${p.bg}\nPolice des titres : ${ft} (${ts} pt)\nPolice du texte : ${fb} (${bs} pt)`;
+  dots();
+}
+
+$('sat').oninput = e => { S = +e.target.value; render(); };
+$('lig').oninput = e => { L = +e.target.value; render(); };
+$('hex').addEventListener('change', e => {
+  const v = e.target.value.trim(); if (/^#[0-9a-fA-F]{6}$/.test(v)) { [H, S, L] = hex2hsl(v.toUpperCase()); S = Math.min(95, Math.max(20, S)); L = Math.min(60, Math.max(22, L)); $('sat').value = S; $('lig').value = L; render(); }
+});
+document.querySelectorAll('#harm button').forEach(b => b.onclick = () => { document.querySelectorAll('#harm button').forEach(x => x.classList.remove('on')); b.classList.add('on'); harm = b.dataset.h; render(); });
+['ft', 'fb', 'ts', 'bs'].forEach(id => $(id).addEventListener('input', render));
+$('far').onclick = () => { const s = $('stage'); s.classList.toggle('far'); $('far').textContent = s.classList.contains('far') ? 'Revenir à l’écran' : 'Test des 3 mètres'; };
+$('copy').onclick = async () => {
+  try { await navigator.clipboard.writeText(window._recap); $('copied').textContent = 'Copié !'; }
+  catch (e) { $('copied').textContent = 'Sélectionne le tableau et copie-le.'; }
+  setTimeout(() => $('copied').textContent = '', 2500);
+};
+const esc = t => t.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function buildSheet() {
+  const p = palette(); const ft = $('ft').value, fb = $('fb').value, ts = $('ts').value, bs = $('bs').value;
+  const harmName = { comp: 'Complémentaire', ana: 'Analogue', tri: 'Triade', mono: 'Camaïeu' }[harm];
+  const sw = [[p.main, 'Principale'], [p.acc, 'Accent'], [p.enc, 'Encarts'], [p.text, 'Texte'], [p.bg, 'Fond']]
+    .map(([c, n]) => `<div><i style="background:${c}"></i>${c}<em>${n}</em></div>`).join('');
+  const d = new Date().toLocaleDateString('fr-FR');
+  $('sheet').innerHTML = `
+    <div class="sh-band"><small>Ville de Rive-de-Gier · Magazine des commerçants · Mission 5</small><b>Ma proposition de couleurs et de polices</b></div>
+    <div class="sh-id"><span><b>Nom :</b> ${esc($('nom').value) || '……………………………………'}</span><span><b>Date :</b> ${d}</span></div>
+    <div class="sh-row">
+      <div class="sh-col">
+        <div class="sh-h">Les couleurs · harmonie ${harmName.toLowerCase()}</div>
+        <div class="sh-sw">${sw}</div>
+        <div class="sh-h">La typographie</div>
+        <div class="sh-font"><b>Titres :</b> ${ft} · ${ts} pt<div class="smp" style="font-family:'${ft}'; color:${p.main}">Les commerçants de Rive-de-Gier</div></div>
+        <div class="sh-font"><b>Texte :</b> ${fb} · ${bs} pt<div style="font-family:'${fb}'; font-size:${bs}pt; margin-top:3px">Depuis dix ans, la boulangerie accueille les habitants dès 6 heures du matin.</div></div>
+        <div class="sh-h">Pourquoi ce choix</div>
+        <div class="sh-why">${esc($('why').value) || '&nbsp;'}</div>
+        <div class="sh-h">Lisibilité</div>
+        <div class="sh-checks">${$('checks').innerHTML}</div>
+      </div>
+      <div class="sh-prev"><div class="sh-h">Aperçu de l’article</div>${$('page').outerHTML.replace('id="page"', '')}</div>
+    </div>`;
+}
+$('pdf').onclick = () => { buildSheet(); setTimeout(() => window.print(), 300); };
+window.addEventListener('beforeprint', buildSheet);
+[H, S, L] = hex2hsl('#A61E2A'); $('sat').value = Math.min(95, S); $('lig').value = L; S = +$('sat').value; L = +$('lig').value;
+render();
+</script>
+</body>
+</html>
